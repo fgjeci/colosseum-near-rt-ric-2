@@ -113,6 +113,7 @@ static long transactionCounter = 0;
 
 int buildListeningPort(sctp_params_t &sctpParams) {
     sctpParams.listenFD = socket (AF_INET6, SOCK_STREAM, IPPROTO_SCTP);
+    // sctpParams.listenFD = socket (AF_INET6, SOCK_STREAM, IPPROTO_TCP);
     struct sockaddr_in6 servaddr {};
     servaddr.sin6_family = AF_INET6;
     servaddr.sin6_addr   = in6addr_any;
@@ -695,6 +696,7 @@ void listener(sctp_params_t *params) {
                                     num_of_SCTP_messages,
                                     rmrMessageBuffer,
                                     message.message.time);
+                mdclog_write(MDCLOG_INFO, "SCTP data received ");
             }
 
             clock_gettime(CLOCK_MONOTONIC, &end);
@@ -1171,7 +1173,9 @@ int receiveDataFromSctp(struct epoll_event *events,
         if (loglevel >= MDCLOG_DEBUG) {
             mdclog_write(MDCLOG_DEBUG, "Start Read from SCTP %d fd", message.peerInfo->fileDescriptor);
             clock_gettime(CLOCK_MONOTONIC, &start);
+            // mdclog_write(MDCLOG_DEBUG, "SCTP buffer max size %d ", KA_MESSAGE_SIZE);
         }
+        
         // read the buffer directly to rmr payload
         message.message.asndata = rmrMessageBuffer.sendMessage->payload;
         message.message.asnLength = rmrMessageBuffer.sendMessage->len =
@@ -1212,7 +1216,7 @@ int receiveDataFromSctp(struct epoll_event *events,
         }
 
         if (loglevel >= MDCLOG_DEBUG) {
-            char printBuffer[4096]{};
+            char printBuffer[40960]{};
             char *tmp = printBuffer;
             for (size_t i = 0; i < (size_t)message.message.asnLength; ++i) {
                 snprintf(tmp, 3, "%02x", message.message.asndata[i]);

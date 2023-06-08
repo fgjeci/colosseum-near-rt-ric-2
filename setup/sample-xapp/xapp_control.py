@@ -8,6 +8,7 @@ def open_control_socket(port: int):
 
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    
     # host = socket.gethostname()
     # bind to INADDR_ANY
     server.bind(('', port))

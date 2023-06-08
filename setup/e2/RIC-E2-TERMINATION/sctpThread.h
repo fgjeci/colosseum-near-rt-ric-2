@@ -100,7 +100,7 @@ namespace sinks = boost::log::sinks;
 namespace posix_time = boost::posix_time;
 namespace expr = boost::log::expressions;
 
-#define SRC_PORT 36422
+#define SRC_PORT 46422
 #define SA      struct sockaddr
 #define MAX_ENODB_NAME_SIZE 64
 
@@ -114,7 +114,8 @@ typedef mapWrapper Sctp_Map_t;
 
 
 #define VOLUME_URL_SIZE 256
-#define KA_MESSAGE_SIZE 2048
+// #define KA_MESSAGE_SIZE (5*2048)
+#define KA_MESSAGE_SIZE 10240
 
 typedef struct sctp_params {
     uint16_t rmrPort = 0;
