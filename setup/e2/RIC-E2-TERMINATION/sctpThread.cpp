@@ -2321,7 +2321,7 @@ int receiveXappMessages(Sctp_Map_t *sctpMap,
 
 int sendMessageSocket(const int dest_port) {
 
-    const char* dest_ip = "10.0.2.100";
+    const char* dest_ip = "10.0.3.100";
 
     int sckfd = socket(AF_INET, SOCK_STREAM, IPPROTO_SCTP);
     if (sckfd < 0) {
